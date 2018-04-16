@@ -1,10 +1,11 @@
 {
   "name": "vue-live-preview",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "Live preview component for Vue.js and Nuxt.js",
   "main": "dist/vue-live-preview.js",
   "scripts": {
-    "build": "rimraf ./dist && webpack --config ./webpack.config.js"
+    "build": "rimraf ./dist && webpack --config ./webpack.config.js",
+    "publish": "git push && npm publish"
   },
   "author": "Julien Simonet",
   "license": "MIT",
