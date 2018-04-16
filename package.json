@@ -4,8 +4,7 @@
   "description": "Live preview component for Vue.js and Nuxt.js",
   "main": "dist/vue-live-preview.js",
   "scripts": {
-    "build": "rimraf ./dist && webpack --config ./webpack.config.js",
-    "publish": "git push && npm publish"
+    "build": "rimraf ./dist && webpack --config ./webpack.config.js"
   },
   "author": "Julien Simonet",
   "license": "MIT",
