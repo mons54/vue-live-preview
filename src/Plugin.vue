@@ -22,10 +22,12 @@ export default {
     }
   },
   props: {
+    Vue: {
+      default: null,
+    },
     code: {
       type: String,
       default: null,
-      require: true,
     },
     showCode: {
       type: Boolean,
