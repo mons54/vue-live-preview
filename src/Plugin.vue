@@ -17,7 +17,6 @@ import Babel from 'babel-standalone'
 export default {
   data() {
     return {
-      cheerio: cheerio,
       codemirror: false,
       model: null,
       elStyle: null,
