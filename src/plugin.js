@@ -10,6 +10,6 @@ module.exports = {
     mode: 'text/x-vue',
   }) {
     Vue.use(VueCodemirror, options)
-    Vue.component('vue-live-preview', Plugin)
+    Vue.component('live-preview', Plugin)
   }
 }
