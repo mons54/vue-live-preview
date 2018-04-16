@@ -1,175 +1,37 @@
 # vue-live-preview
 
-[![npm](https://img.shields.io/npm/v/vue-live-preview.svg) ![npm](https://img.shields.io/npm/dm/vue-live-preview.svg)](https://www.npmjs.com/package/vue-live-preview)
-[![vue2](https://img.shields.io/badge/vue-2.x-brightgreen.svg)](https://vuejs.org/)
+Live preview component for Vue.js and Nuxt.js.
 
-A Vue.js Plugin
-
-## Table of contents
-
-- [Installation](#installation)
-- [Usage](#usage)
-- [Example](#example)
-
-# Installation
-
-```
-npm install --save vue-live-preview
-```
-
-## Default import
-
-Install all the components:
-
-```javascript
-import Vue from 'vue'
-import VueLivePreview from 'vue-live-preview'
-
-Vue.use(VueLivePreview)
-```
-
-Use specific components:
-
-```javascript
-import Vue from 'vue'
-import { Test } from 'vue-live-preview'
-
-Vue.component('test', Test)
-```
-
-**⚠️ A css file is included when importing the package. You may have to setup your bundler to embed the css in your page.**
-
-## Distribution import
-
-Install all the components:
-
-```javascript
-import 'vue-live-preview/dist/vue-live-preview.css'
-import VueLivePreview from 'vue-live-preview/dist/vue-live-preview.common'
-
-Vue.use(VueLivePreview)
-```
-
-Use specific components:
-
-```javascript
-import 'vue-live-preview/dist/vue-live-preview.css'
-import { Test } from 'vue-live-preview/dist/vue-live-preview.common'
-
-Vue.component('test', Test)
-```
-
-**⚠️ You may have to setup your bundler to embed the css file in your page.**
-
-## Browser
-
-```html
-<link rel="stylesheet" href="vue-live-preview/dist/vue-live-preview.css"/>
-
-<script src="vue.js"></script>
-<script src="vue-live-preview/dist/vue-live-preview.browser.js"></script>
-```
-
-The plugin should be auto-installed. If not, you can install it manually with the instructions below.
-
-Install all the components:
-
-```javascript
-Vue.use(VueLivePreview)
-```
-
-Use specific components:
-
-```javascript
-Vue.component('test', VueLivePreview.Test)
-```
-
-## Source import
-
-Install all the components:
-
-```javascript
-import Vue from 'vue'
-import VueLivePreview from 'vue-live-preview/src'
-
-Vue.use(VueLivePreview)
-```
-
-Use specific components:
-
-```javascript
-import Vue from 'vue'
-import { Test } from 'vue-live-preview/src'
-
-Vue.component('test', Test)
-```
-
-**⚠️ You need to configure your bundler to compile `.vue` files.** More info [in the official documentation](https://vuejs.org/v2/guide/single-file-components.html).
-
-# Usage
-
-> TODO
-
-# Example
-
-> TODO
-
----
-
-# Plugin Development
+This isn't particularly useful, it's used as a demo for how to publish Vue components to NPM!
 
 ## Installation
 
-The first time you create or clone your plugin, you need to install the default dependencies:
-
-```
-npm install
+```js
+npm i --save-dev vue-live-preview
 ```
 
-## Watch and compile
+### Browser
 
-This will run webpack in watching mode and output the compiled files in the `dist` folder.
+Include the script file, then install the component with `Vue.use(VueLivePreview);` e.g.:
 
-```
-npm run dev
-```
-
-## Use it in another project
-
-While developping, you can follow the install instructions of your plugin and link it into the project that uses it.
-
-In the plugin folder:
-
-```
-npm link
+```html
+<script type="text/javascript" src="node_modules/vuejs/dist/vue.min.js"></script>
+<script type="text/javascript" src="node_modules/vue-live-preview/dist/vue-live-preview.min.js"></script>
+<script type="text/javascript">
+  Vue.use(VueLivePreview);
+</script>
 ```
 
-In the other project folder:
+### Module
 
-```
-npm link vue-live-preview
-```
-
-This will install it in the dependencies as a symlink, so that it gets any modifications made to the plugin.
-
-## Publish to npm
-
-You may have to login to npm before, with `npm adduser`. The plugin will be built in production mode before getting published on npm.
-
-```
-npm publish
+```js
+import VueLivePreview from 'vue-live-preview';
 ```
 
-## Manual build
+## Usage
 
-This will build the plugin into the `dist` folder in production mode.
+Once installed, it can be used in a template as simply as:
 
+```html
+<vue-live-preview></vue-live-preview>
 ```
-npm run build
-```
-
----
-
-## License
-
-[MIT](http://opensource.org/licenses/MIT)
