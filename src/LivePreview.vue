@@ -64,16 +64,6 @@ export default {
 
         this.template = template
         this.script = script
-
-        new this.Vue({
-          el: '#component',
-          template: `<div id="component"><div id="content"></div></div>`,
-        })
-
-        new this.Vue(Object.assign({
-          el: '#content',
-          template: template.replace(/=""/g, ''),
-        }, data))
       }
 
       if (!this.elStyle) {
