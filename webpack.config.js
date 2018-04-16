@@ -43,7 +43,7 @@ var config = {
 
 module.exports = [
   merge(config, {
-    entry: path.resolve(__dirname + '/src/plugin.js'),
+    entry: path.resolve(__dirname + '/src/index.js'),
     output: {
       filename: 'vue-live-preview.min.js',
       libraryTarget: 'window',
@@ -51,7 +51,7 @@ module.exports = [
     }
   }),
   merge(config, {
-    entry: path.resolve(__dirname + '/src/Plugin.vue'),
+    entry: path.resolve(__dirname + '/src/LivePreview.vue'),
     output: {
       filename: 'vue-live-preview.js',
       libraryTarget: 'umd',
