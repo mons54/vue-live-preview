@@ -40,7 +40,6 @@ var config = {
   ]
 };
 
-
 module.exports = [
   merge(config, {
     entry: path.resolve(__dirname + '/src/index.js'),
