@@ -5,8 +5,7 @@
   "main": "dist/vue-live-preview.min.js",
   "web": "dist/vue-live-preview.js",
   "scripts": {
-    "build": "rimraf ./dist && webpack --config ./webpack.config.js",
-    "publish": "npm run build && npm publish"
+    "build": "rimraf ./dist && webpack --config ./webpack.config.js"
   },
   "author": "Julien Simonet",
   "license": "MIT",
