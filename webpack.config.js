@@ -1,15 +1,10 @@
 const webpack = require('webpack');
-const merge = require('webpack-merge');
-const path = require('path');
 
 module.exports = {
-  entry: {
-    'live-preview': './src/index.js',
-    'live-preview.min': './src/index.js',
-  },
+  entry: './src/index.js',
   output: {
     path: './dist',
-    filename: '[name].js',
+    filename: 'vue-live-preview.min.js',
     libraryTarget: 'window',
     library: 'VueLivePreview',
   },
@@ -37,7 +32,6 @@ module.exports = {
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
-      include: /\.min\.js$/,
       minimize : true,
       sourceMap : false,
       mangle: true,

@@ -1,21 +1,19 @@
 import VueLivePreview from './Preview.vue'
-import VueCodemirror from 'vue-codemirror'
+import VueCodemirror, { codemirror } from 'vue-codemirror'
 
 function install(Vue, options = {
-    options: { 
-      theme: 'material',
-      tabSize: 2,
-      lineNumbers: true,
-      mode: 'text/x-vue',
-    },
+    theme: 'material',
+    tabSize: 2,
+    lineNumbers: true,
+    mode: 'text/x-vue',
   }) {
   Vue.use(VueCodemirror, options)
-  Vue.component('live-preview', VueLivePreview)
+  Vue.component(VueLivePreview.name, VueLivePreview)
 }
 
 if (typeof Vue !== 'undefined') {
   Vue.use(install)
 }
 
-export { VueLivePreview, VueCodemirror, install }
-export default VueLivePreview
+export { VueLivePreview, VueCodemirror, codemirror, install }
+export default install
