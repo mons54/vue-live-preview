@@ -13,6 +13,7 @@
     name: 'live-preview',
     data() {
       return {
+        renderer: this.vue,
         parser: this.cheerio,
         compiler: this.babel,
         show: false,
@@ -21,6 +22,10 @@
       }
     },
     props: {
+      vue: {
+        type: Function,
+        default: null,
+      },
       cheerio: {
         type: Function,
         default: null,
@@ -46,6 +51,9 @@
       },
       onChange(code) {
         this.set(code)
+      },
+      render(data) {
+        return new this.renderer(data)
       },
       parse(code) {
         const content = this.parser.load(code)
@@ -83,12 +91,12 @@
           this.template = template
           this.script = script
 
-          new Vue({
+          this.render({
             el: '#component',
             template: `<div id="component"><div id="content"></div></div>`,
           })
 
-          new Vue(Object.assign({
+          this.render(Object.assign({
             el: '#content',
             template: template.replace(/=""/g, ''),
           }, data))
@@ -105,6 +113,9 @@
       }
     },
     mounted() {
+      if (!this.renderer) {
+        this.renderer = require('vue')
+      }
       if (!this.parser) {
         this.parser = require('cheerio')
       }

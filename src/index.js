@@ -8,13 +8,17 @@
 import VueLivePreview from './Preview.vue'
 import VueCodemirror, { codemirror } from 'vue-codemirror'
 
-function install(Vue, options = {
-    theme: 'material',
-    tabSize: 2,
-    lineNumbers: true,
-    mode: 'text/x-vue',
-  }) {
-  Vue.use(VueCodemirror, options)
+const defaultOptions = {
+  theme: 'default',
+  tabSize: 2,
+  lineNumbers: true,
+  mode: 'text/x-vue',
+}
+
+function install(Vue, options = {}) {
+  Vue.use(VueCodemirror, {
+    options: Object.assign(defaultOptions, options)
+  })
   Vue.component(VueLivePreview.name, VueLivePreview)
 }
 
