@@ -9,10 +9,13 @@
 </template>
 
 <script>
-  
-import Vue from 'vue'
-import Cheerio from 'cheerio'
-import Babel from 'babel-standalone'
+
+let Cheerio, Babel;
+
+if (window.Vue) {
+  Cheerio = require('cheerio')
+  Babel = require('babel-standalone')
+}
 
 export default {
   data() {
