@@ -6,6 +6,8 @@ var VuePlugin = {
   }
 };
 
-vueUse(VuePlugin);
+if (typeof window !== 'undefined' && window.Vue) {
+  Vue.use(VuePlugin);
+}
 
 export default VuePlugin;
