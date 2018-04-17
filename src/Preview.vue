@@ -1,37 +1,40 @@
 <template>
-<div>
-  <div v-if="codemirror">
-    <codemirror v-model="model" @input="onChange"></codemirror>
-    <hr>
+  <div>
+    <div v-if="show">
+      <codemirror v-model="model" @input="onChange"></codemirror>
+      <hr>
+    </div>
+    <div id="component"></div>
   </div>
-  <div id="component"></div>
-</div>
 </template>
 
 <script>
 
-let Cheerio, Babel;
-
-if (window.Vue) {
-  Cheerio = require('cheerio')
-  Babel = require('babel-standalone')
-}
+import Vue from 'vue'
 
 export default {
   data() {
     return {
-      codemirror: false,
+      parser: this.cheerio,
+      compiler: this.babel,
+      show: false,
       model: null,
       elStyle: null,
     }
   },
   props: {
-    Vue: {
+    cheerio: {
+      type: Function,
+      default: null,
+    },
+    babel: {
+      type: Function,
       default: null,
     },
     code: {
       type: String,
       default: null,
+      require: true,
     },
     showCode: {
       type: Boolean,
@@ -46,19 +49,32 @@ export default {
     onChange(code) {
       this.set(code)
     },
-    set(code) {
-
-      const content = Cheerio.load(code)
-
+    parse(code) {
+      const content = this.parser.load(code)
       const template = content('template').html() || ''
       const script = content('script').html()
       const style = content('style').html()
+      return {
+        template,
+        script,
+        style
+      }
+    },
+    compile() {
+
+    },
+    set(code) {
+
+      const content = this.parse(code)
+      const template = content.template
+      const script = content.script
+      const style = content.style
 
       let data = {}
 
       if (typeof script === 'string') {
         try {
-          let js = Babel.transform(script, { presets: ['es2015'] }).code
+          let js = this.compiler.transform(script, { presets: ['es2015'] }).code
           const exports = {}
           data = eval(js)
         } catch(e) {}
@@ -91,12 +107,18 @@ export default {
     }
   },
   mounted() {
-    this.codemirror = this.showCode;
+    if (!this.parser) {
+      this.parser = require('cheerio')
+    }
+    if (!this.compiler) {
+      this.compiler = require('babel-standalone')
+    }
+    this.show = this.showCode;
     this.init(this.code);
   },
   watch: {
     showCode (value) {
-      this.codemirror = value;
+      this.show = value;
     }
   },
 }

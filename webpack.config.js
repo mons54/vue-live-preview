@@ -2,9 +2,16 @@ const webpack = require('webpack');
 const merge = require('webpack-merge');
 const path = require('path');
 
-var config = {
+module.exports = {
+  entry: {
+    'live-preview': './src/index.js',
+    'live-preview.min': './src/index.js',
+  },
   output: {
-    path: path.resolve(__dirname + '/dist/'),
+    path: './dist',
+    filename: '[name].js',
+    libraryTarget: 'window',
+    library: 'VueLivePreview',
   },
   module: {
     loaders: [
@@ -30,6 +37,7 @@ var config = {
   },
   plugins: [
     new webpack.optimize.UglifyJsPlugin({
+      include: /\.min\.js$/,
       minimize : true,
       sourceMap : false,
       mangle: true,
@@ -39,23 +47,3 @@ var config = {
     })
   ]
 };
-
-module.exports = [
-  merge(config, {
-    entry: path.resolve(__dirname + '/src/index.js'),
-    output: {
-      filename: 'vue-live-preview.min.js',
-      libraryTarget: 'window',
-      library: 'VueLivePreview',
-    }
-  }),
-  merge(config, {
-    entry: path.resolve(__dirname + '/src/LivePreview.vue'),
-    output: {
-      filename: 'vue-live-preview.js',
-      libraryTarget: 'umd',
-      library: 'vue-live-preview',
-      umdNamedDefine: true
-    }
-  })
-];

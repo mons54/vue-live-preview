@@ -1,13 +1,21 @@
-import LivePreview from './LivePreview.vue'
+import VueLivePreview from './Preview.vue'
+import VueCodemirror from 'vue-codemirror'
 
-var VuePlugin = {
-  install: function install(Vue) {
-    Vue.component('live-preview', LivePreview);
-  }
-};
-
-if (typeof window !== 'undefined' && window.Vue) {
-  Vue.use(VuePlugin);
+function install(Vue, options = {
+    options: { 
+      theme: 'material',
+      tabSize: 2,
+      lineNumbers: true,
+      mode: 'text/x-vue',
+    },
+  }) {
+  Vue.use(VueCodemirror, options)
+  Vue.component('live-preview', VueLivePreview)
 }
 
-export default VuePlugin;
+if (typeof Vue !== 'undefined') {
+  Vue.use(install)
+}
+
+export { VueLivePreview, VueCodemirror, install }
+export default VueLivePreview
