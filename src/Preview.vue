@@ -23,25 +23,25 @@
     },
     props: {
       vue: {
-        type: Function,
+        type: Object,
         default: null,
       },
       cheerio: {
-        type: Function,
+        type: Object,
         default: null,
       },
       babel: {
-        type: Function,
+        type: Object,
         default: null,
       },
       code: {
         type: String,
         default: null,
-        require: true,
+        required: true,
       },
       showCode: {
         type: Boolean,
-        default: false
+        default: true
       }, 
     },
     methods: {

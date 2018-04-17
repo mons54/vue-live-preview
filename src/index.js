@@ -1,10 +1,3 @@
-/**
- * Live preview component for Vue.js and Nuxt.js
- *
- * @author Julien Simonet <j.mons54@gmail.com>
- * @repository git+https://github.com/mons54/vue-live-preview
- * @license  MIT
- */
 import VueLivePreview from './Preview.vue'
 import VueCodemirror, { codemirror } from 'vue-codemirror'
 
