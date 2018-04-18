@@ -11,6 +11,10 @@
 </template>
 
 <script>
+
+  import Vue from 'vue'
+  import Babel from 'babel-standalone'
+
   export default {
     name: 'live-preview',
     data() {
@@ -92,12 +96,12 @@
           this.template = template
           this.script = script
 
-          new this.Vue({
+          new this.vue({
             el: '#component',
             template: `<div id="component"><div id="content"></div></div>`,
           })
 
-          new this.Vue(Object.assign({
+          new this.vue(Object.assign({
             el: '#content',
             template: template.replace(/=""/g, ''),
           }, data))
@@ -111,24 +115,30 @@
         }
         
         this.elStyle.innerHTML = this.scoped ? this.scopeStyle(style) : style
-      }
+      },
     },
     mounted() {
 
-      if (window && window.Vue) {
-        this.Vue = window.Vue
-      } else if (typeof Vue !== 'undefined') {
-        this.Vue = Vue
+      if (Vue) {
+        this.vue = Vue
+      } else if (window && window.Vue) {
+        this.vue = window.Vue
       } else {
-        this.Vue = require('vue')
+        this.vue = require('vue')
       }
 
-      this.babel = require('babel-standalone')
+      if (Babel) {
+        this.babel = Babel
+      } else if (window && window.Babel) {
+        this.babel = window.Babel
+      } else {
+        this.babel = require('babel-standalone')
+      }
 
       this.init(this.code);
 
-      this.Vue.config.errorHandler = (error) => console.warn(error)
-      this.Vue.config.warnHandler = (error) => console.warn(error)
+      this.vue.config.errorHandler = (error) => console.warn(error)
+      this.vue.config.warnHandler = (error) => console.warn(error)
     },
     watch: {
       showCode (value) {

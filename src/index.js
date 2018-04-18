@@ -9,8 +9,9 @@ const defaultOptions = {
 }
 
 function install(Vue, options = {}) {
+  options = Object.assign(defaultOptions, options)
   Vue.use(VueCodemirror, {
-    options: Object.assign(defaultOptions, options)
+    options: options
   })
   Vue.component(VueLivePreview.name, VueLivePreview)
 }
