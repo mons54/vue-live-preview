@@ -1,10 +1,10 @@
 <template>
-  <div class="live-preview">
-    <div v-if="show">
+  <div class="row live-preview">
+    <div v-if="show" v-bind:class="classCode">
       <codemirror v-model="model" @input="change"></codemirror>
       <hr>
     </div>
-    <div v-bind:class="scopedClass">
+    <div v-bind:class="[classPrev, scope]">
       <div id="component"></div>
     </div>
   </div>
@@ -15,9 +15,10 @@
     name: 'live-preview',
     data() {
       return {
-        show: false,
         model: null,
         elStyle: null,
+        show: this.showCode,
+        scope: this.generateScope(),
       }
     },
     props: {
@@ -26,18 +27,22 @@
         default: null,
         required: true,
       },
-      showCode: {
-        type: Boolean,
-        default: true
-      },
       scoped: {
         type: Boolean,
         default: true
       },
-      scopedClass: {
-        type: String,
-        default: 'live-preview--scope'
+      showCode: {
+        type: Boolean,
+        default: true
       },
+      classCode: {
+        type: String,
+        default: 'col-md-12'
+      },
+      classPrev: {
+        type: String,
+        default: 'col-md-12'
+      }
     },
     methods: {
       init(code) {
@@ -45,9 +50,15 @@
         this.model = code;
         this.change(code)
       },
+      generateScope() {
+        return  'v-xxxxxxxx'.replace(/[xy]/g, (c) => {
+          const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
+          return v.toString(16);
+        });
+      },
       scopeStyle (style) {
         return style.trim().replace(/(^|\})\s*([^{]+)/g, (m, g1, g2) => {
-          return g1 ? `${g1} .${this.scopedClass} ${g2}` : `.${this.scopedClass} ${g2}`
+          return g1 ? `${g1} .${this.scope} ${g2}` : `.${this.scope} ${g2}`
         })
       },
       change(code) {
@@ -114,7 +125,6 @@
 
       this.babel = require('babel-standalone')
 
-      this.show = this.showCode;
       this.init(this.code);
 
       this.Vue.config.errorHandler = (error) => console.warn(error)
