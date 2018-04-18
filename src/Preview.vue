@@ -127,9 +127,3 @@
     },
   }
 </script>
-
-<style scoped>
-  .preview {
-    display: block;
-  }
-</style>
