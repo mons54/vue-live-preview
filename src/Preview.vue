@@ -1,10 +1,12 @@
 <template>
-  <div>
+  <div class="live-preview">
     <div v-if="show">
-      <codemirror v-model="model" @input="onChange"></codemirror>
+      <codemirror v-model="model" @input="change"></codemirror>
       <hr>
     </div>
-    <div id="component"></div>
+    <div v-bind:class="scopedClass">
+      <div id="component"></div>
+    </div>
   </div>
 </template>
 
@@ -13,27 +15,12 @@
     name: 'live-preview',
     data() {
       return {
-        renderer: this.vue,
-        parser: this.cheerio,
-        compiler: this.babel,
         show: false,
         model: null,
         elStyle: null,
       }
     },
     props: {
-      vue: {
-        type: Object,
-        default: null,
-      },
-      cheerio: {
-        type: Object,
-        default: null,
-      },
-      babel: {
-        type: Object,
-        default: null,
-      },
       code: {
         type: String,
         default: null,
@@ -42,45 +29,48 @@
       showCode: {
         type: Boolean,
         default: true
-      }, 
+      },
+      scoped: {
+        type: Boolean,
+        default: true
+      },
+      scopedClass: {
+        type: String,
+        default: 'live-preview--scope'
+      },
     },
     methods: {
       init(code) {
+        code = code.trim()
         this.model = code;
-        this.set(code)
+        this.change(code)
       },
-      onChange(code) {
-        this.set(code)
+      scopeStyle (style) {
+        return style.trim().replace(/(^|\})\s*([^{]+)/g, (m, g1, g2) => {
+          return g1 ? `${g1} .${this.scopedClass} ${g2}` : `.${this.scopedClass} ${g2}`
+        })
       },
-      render(data) {
-        return new this.renderer(data)
-      },
-      parse(code) {
-        const content = this.parser.load(code)
-        const template = content('template').html() || ''
-        const script = content('script').html()
-        const style = content('style').html()
-        return {
-          template,
-          script,
-          style
-        }
-      },
-      compile(script) {
-        return this.compiler.transform(script, { presets: ['es2015'] }).code;
-      },
-      set(code) {
+      change(code) {
 
-        const content = this.parse(code)
-        const template = content.template
-        const script = content.script
-        const style = content.style
+        const html = document.createElement('div')
+        html.innerHTML = code
+        let template = html.querySelector('template')
+        let script = html.querySelector('script')
+        let style = Array.prototype.slice.call(html.querySelectorAll('style')).map(n => n.innerHTML)
+
+        template = template ? template.innerHTML : ''
+
+        if (script) {
+          script = script.innerHTML
+        }
+
+        style = style.join(' ')
 
         let data = {}
 
         if (typeof script === 'string') {
           try {
-            let js = this.compile(script)
+            let js = this.babel.transform(script, { presets: ['es2015'] }).code
             const exports = {}
             data = eval(js)
           } catch(e) {}
@@ -91,12 +81,12 @@
           this.template = template
           this.script = script
 
-          this.render({
+          new this.Vue({
             el: '#component',
             template: `<div id="component"><div id="content"></div></div>`,
           })
 
-          this.render(Object.assign({
+          new this.Vue(Object.assign({
             el: '#content',
             template: template.replace(/=""/g, ''),
           }, data))
@@ -109,21 +99,26 @@
           head.appendChild(this.elStyle)
         }
         
-        this.elStyle.innerHTML = style
+        this.elStyle.innerHTML = this.scoped ? this.scopeStyle(style) : style
       }
     },
     mounted() {
-      if (!this.renderer) {
-        this.renderer = require('vue')
+
+      if (window && window.Vue) {
+        this.Vue = window.Vue
+      } else if (typeof Vue !== 'undefined') {
+        this.Vue = Vue
+      } else {
+        this.Vue = require('vue')
       }
-      if (!this.parser) {
-        this.parser = require('cheerio')
-      }
-      if (!this.compiler) {
-        this.compiler = require('babel-standalone')
-      }
+
+      this.babel = require('babel-standalone')
+
       this.show = this.showCode;
       this.init(this.code);
+
+      this.Vue.config.errorHandler = (error) => console.warn(error)
+      this.Vue.config.warnHandler = (error) => console.warn(error)
     },
     watch: {
       showCode (value) {
@@ -132,3 +127,9 @@
     },
   }
 </script>
+
+<style scoped>
+  .preview {
+    display: block;
+  }
+</style>

@@ -2,36 +2,63 @@
 
 Live preview component for Vue.js and Nuxt.js.
 
-This isn't particularly useful, it's used as a demo for how to publish Vue components to NPM!
-
 ## Installation
 
 ```js
 npm i --save-dev vue-live-preview
 ```
 
-### Browser
-
-Include the script file, then install the component with `Vue.use(VueLivePreview);` e.g.:
-
-```html
-<script type="text/javascript" src="node_modules/vuejs/dist/vue.min.js"></script>
-<script type="text/javascript" src="node_modules/vue-live-preview/dist/vue-live-preview.min.js"></script>
-<script type="text/javascript">
-  Vue.use(VueLivePreview);
-</script>
-```
-
-### Module
+### Vue.js
 
 ```js
-import VueLivePreview from 'vue-live-preview';
+import VueLivePreview from 'vue-live-preview'
+import 'codemirror/mode/vue/vue'
+
+Vue.use(VueLivePreview, {
+  theme: 'material' // codemirror options
+})
 ```
 
 ## Usage
 
-Once installed, it can be used in a template as simply as:
+```html
+<live-preview :code="`Your monofile code here`"></live-preview>
+```
+
+### Nuxt.js
+
+For nuxt, use the component out of server side rendering.
+
+nuxt.config.js
+```js
+plugins: [
+  { src: '~plugins/vue-live-preview', ssr: false },
+],
+```
+
+~plugins/vue-live-preview.js
+```js
+import Vue from 'vue'
+import VueLivePreview from 'vue-live-preview'
+import 'codemirror/mode/vue/vue'
+
+Vue.use(VueLivePreview, {
+  theme: 'material' // codemirror options
+})
+```
 
 ```html
-<vue-live-preview></vue-live-preview>
+<no-ssr>
+  <live-preview :code="`Your monofile code here`"></live-preview>
+</no-ssr>
+```
+
+### Browser
+
+```html
+<script type="text/javascript" src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+<script type="text/javascript" src="//unpkg.com/vue-live-preview@latest/dist/vue-live-preview.min.js"></script>
+<script type="text/javascript">
+  Vue.use(VueLivePreview);
+</script>
 ```
