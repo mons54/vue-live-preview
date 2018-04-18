@@ -23,13 +23,13 @@ Vue.use(VueLivePreview, {
 })
 ```
 
-## Usage
+### Usage
 
 ```html
 <live-preview :code="`Your monofile code here`"></live-preview>
 ```
 
-## Style
+### Style
 
 ```html
 <style>
@@ -84,3 +84,54 @@ Vue.vue
   Vue.use(VueLivePreview);
 </script>
 ```
+
+### Props
+
+<table>
+  <thead>
+    <tr>
+      <th>Name</th>
+      <th>Type</th>
+      <th>Default</th>
+      <th>Required</th>
+      <th>Description</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>code</td>
+      <td>String</td>
+      <td>null</td>
+      <td>true</td>
+      <td>Code of Single File Components</td>
+    </tr>
+    <tr>
+      <td>scoped</td>
+      <td>Boolean</td>
+      <td>true</td>
+      <td></td>
+      <td>Apply css to elements of preview only</td>
+    </tr>
+    <tr>
+      <td>showCode</td>
+      <td>Boolean</td>
+      <td>true</td>
+      <td></td>
+      <td>Show element code (Used for toogle)</td>
+    </tr>
+    <tr>
+      <td>classCode</td>
+      <td>String</td>
+      <td>col-md-12</td>
+      <td></td>
+      <td>Class css for element code (Used for bootstrap grid)</td>
+    </tr>
+    <tr>
+      <td>classPrev</td>
+      <td>String</td>
+      <td>col-md-12</td>
+      <td></td>
+      <td>Class css for element preview (Used for bootstrap grid)</td>
+    </tr>
+  </tbody>
+</table>
