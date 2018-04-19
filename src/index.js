@@ -1,5 +1,5 @@
 import VueLivePreview from './Preview.vue'
-import VueCodemirror, { codemirror } from 'vue-codemirror'
+import VueCodemirror from 'vue-codemirror'
 
 const defaultOptions = {
   theme: 'default',
@@ -16,9 +16,15 @@ function install(Vue, options = {}) {
   Vue.component(VueLivePreview.name, VueLivePreview)
 }
 
-if (typeof Vue !== 'undefined') {
-  Vue.use(install)
+let _Vue
+if (typeof window !== 'undefined') {
+  _Vue = window.Vue
+} else if (typeof global !== 'undefined') {
+  _Vue = global.Vue
+}
+if (_Vue) {
+  _Vue.use(install)
 }
 
-export { VueLivePreview, VueCodemirror, codemirror, install }
+export { VueLivePreview, VueCodemirror }
 export default install
