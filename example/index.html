@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror@latest/lib/codemirror.css"></link>
+    <link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror@latest/theme/material.css"></link>
+    <title>example</title>
+  </head>
+  <body>
+    <div id="app">
+      <live-preview :code="code"></live-preview>
+    </div>
+
+
+    <script type="text/javascript" src="//unpkg.com/codemirror@latest/lib/codemirror.js"></script>
+    <script type="text/javascript" src="//unpkg.com/codemirror@latest/mode/vue/vue.js"></script>
+    <script type="text/javascript" src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
+    <script type="text/javascript" src="/dist/vue-live-preview.min.js"></script>
+
+<code id="code" style="display: none">
+<script>
+  var app = new Vue({
+    el: '#example',
+    template: '<div>Hello {{ name }}</div>',
+    data: {
+      name: 'mons'
+    }
+  })
+</script>
+</code>
+
+    <script type="text/javascript">
+
+      Vue.use(VueLivePreview, {
+        theme: 'material',
+        mode: 'text/x-vue'
+      });
+      var app = new Vue({
+        el: '#app',
+        data: {
+          code: '<div id="example"></div>\n' + document.getElementById('code').innerHTML.trim()
+        }
+      })
+    </script>
+  </body>
+</html>

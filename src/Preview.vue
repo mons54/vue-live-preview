@@ -20,7 +20,6 @@
     data() {
       return {
         model: null,
-        elStyle: null,
         show: this.showCode,
         scope: this.generateScope(),
       }
@@ -49,12 +48,12 @@
       }
     },
     methods: {
-      init(code) {
+      init (code) {
         code = code.trim()
         this.model = code;
         this.change(code)
       },
-      generateScope() {
+      generateScope () {
         return  'v-xxxxxxxx'.replace(/[xy]/g, (c) => {
           const r = Math.random() * 16 | 0, v = c == 'x' ? r : (r & 0x3 | 0x8);
           return v.toString(16);
@@ -65,15 +64,32 @@
           return g1 ? `${g1} .${this.scope} ${g2}` : `.${this.scope} ${g2}`
         })
       },
-      change(code) {
+      change (code) {
 
         const html = document.createElement('div')
         html.innerHTML = code
-        let template = html.querySelector('template')
-        let script = html.querySelector('script')
-        let style = Array.prototype.slice.call(html.querySelectorAll('style')).map(n => n.innerHTML)
+
+        let template, script, style, monofile = true
+
+        template = html.querySelector('template')
+
+        if (!template) {
+          monofile = false
+        }
+
+        script = html.querySelector('script')
+        style = html.querySelectorAll('style')
+
+        if (!monofile) {
+          if (script) {
+            html.querySelector('script').remove()
+          }
+          Array.prototype.slice.call(html.querySelectorAll('style')).forEach(n => n.remove())
+          template = html
+        }
 
         template = template ? template.innerHTML : ''
+        style = Array.prototype.slice.call(style).map(n => n.innerHTML)
 
         if (script) {
           script = script.innerHTML
@@ -83,7 +99,7 @@
 
         let data = {}
 
-        if (typeof script === 'string') {
+        if (monofile && typeof script === 'string') {
           try {
             let js = this.babel.transform(script, { presets: ['es2015'] }).code
             const exports = {}
@@ -96,15 +112,22 @@
           this.template = template
           this.script = script
 
-          new this.vue({
+          new this.Vue({
             el: '#component',
             template: `<div id="component"><div id="content"></div></div>`,
           })
 
-          new this.vue(Object.assign({
-            el: '#content',
-            template: template.replace(/=""/g, ''),
-          }, data))
+          if (monofile) {
+            new this.Vue(Object.assign({
+              el: '#content',
+              template: template,
+            }, data))
+          } else {
+            document.getElementById('content').innerHTML = template
+            try {
+              eval(script.replace(/Vue\(/g, 'this.Vue(').replace(/Vue\./g, 'this.Vue.'))
+            } catch(e) {}
+          }
         }
 
         if (!this.elStyle) {
@@ -119,26 +142,22 @@
     },
     mounted() {
 
-      if (Vue) {
-        this.vue = Vue
-      } else if (window && window.Vue) {
-        this.vue = window.Vue
+      if (window && window.Vue) {
+        this.Vue = window.Vue
       } else {
-        this.vue = require('vue')
+        this.Vue = Vue
       }
 
       if (Babel) {
         this.babel = Babel
-      } else if (window && window.Babel) {
-        this.babel = window.Babel
       } else {
         this.babel = require('babel-standalone')
       }
 
       this.init(this.code);
 
-      this.vue.config.errorHandler = (error) => console.warn(error)
-      this.vue.config.warnHandler = (error) => console.warn(error)
+      this.Vue.config.errorHandler = (error) => console.warn(error)
+      this.Vue.config.warnHandler = (error) => console.warn(error)
     },
     watch: {
       showCode (value) {
