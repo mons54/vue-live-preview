@@ -2,15 +2,8 @@ import VueLivePreview from './Preview.vue'
 import VueCodemirror from 'vue-codemirror'
 import 'codemirror/mode/vue/vue.js'
 
-const defaultOptions = {
-  theme: 'default',
-  tabSize: 2,
-  lineNumbers: true,
-  mode: 'text/x-vue',
-}
-
 function install(Vue, options = {}) {
-  VueLivePreview.props.globalOptions.default = options
+  VueLivePreview.props.globalOptions.default = () => options
   Vue.use(VueCodemirror)
   Vue.component(VueLivePreview.name, VueLivePreview)
 }
