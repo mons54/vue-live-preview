@@ -14,10 +14,10 @@
 
   <script src="//unpkg.com/vue/dist/vue.min.js"></script>
   <script src="//unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="/dist/vue-live-preview.min.js"></script>
+  <script src="//unpkg.com/vue-live-preview/dist/vue-live-preview.min.js"></script>
 
   <script>
-    axios.get('./components/example.html').then(function (response) {
+    axios.get('./components/example.vue').then(function (response) {
       var app = new Vue({
         el: '#app',
         data: {
@@ -32,5 +32,16 @@
 
     Vue.use(VueLivePreview);
   </script>
+
+  <style>
+    #app {
+      font-family: 'Avenir', Helvetica, Arial, sans-serif;
+      -webkit-font-smoothing: antialiased;
+      -moz-osx-font-smoothing: grayscale;
+      text-align: center;
+      color: #2c3e50;
+      margin-top: 60px;
+    }
+  </style>
 </body>
 </html>
