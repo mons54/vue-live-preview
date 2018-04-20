@@ -1,10 +1,10 @@
 <template>
-  <div class="row live-preview">
-    <div v-if="show" v-bind:class="classCode">
+  <div class="preview row" v-bind:class="classElem">
+    <div class="preview-code" v-if="show" v-bind:class="classCode">
       <codemirror v-model="model" @input="change" :options="defaultOptions"></codemirror>
       <hr>
     </div>
-    <div v-bind:class="[classPrev, scope]">
+    <div class="preview-prev" v-bind:class="[classPrev, scope]">
       <div id="component"></div>
     </div>
   </div>
@@ -43,6 +43,10 @@
       showCode: {
         type: Boolean,
         default: true
+      },
+      classElem: {
+        type: String,
+        default: 'row'
       },
       classCode: {
         type: String,
@@ -191,3 +195,9 @@
     },
   }
 </script>
+
+<style scoped>
+  .preview-code {
+    text-align: left;
+  }
+</style>
