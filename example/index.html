@@ -1,45 +1,36 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width,initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror@latest/lib/codemirror.css"></link>
-    <link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror@latest/theme/material.css"></link>
-    <title>example</title>
-  </head>
-  <body>
-    <div id="app">
-      <live-preview :code="code"></live-preview>
-    </div>
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror/lib/codemirror.css"></link>
+  <link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror/theme/material.css"></link>
+  <title>example</title>
+</head>
+<body>
+  <div id="app">
+    <live-preview :code="code"></live-preview>
+  </div>
 
-    <script type="text/javascript" src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
-    <script type="text/javascript" src="/dist/vue-live-preview.min.js"></script>
+  <script src="//unpkg.com/vue/dist/vue.min.js"></script>
+  <script src="//unpkg.com/axios/dist/axios.min.js"></script>
+  <script src="/dist/vue-live-preview.min.js"></script>
 
-<code id="code" style="display: none">
-<script>
-  var app = new Vue({
-    el: '#example',
-    template: '<div>Hello {{ name }}</div>',
-    data: {
-      name: 'Vue'
-    }
-  })
-</script>
-</code>
-
-    <script type="text/javascript">
-
-      VueLivePreview.options = {
-        theme: 'material'
-      }
-
-      Vue.use(VueLivePreview);
+  <script>
+    axios.get('./components/example.html').then(function (response) {
       var app = new Vue({
         el: '#app',
         data: {
-          code: '<div id="example"></div>\n' + document.getElementById('code').innerHTML.trim()
+          code: response.data
         }
       })
-    </script>
-  </body>
+    });
+
+    VueLivePreview.options = {
+      theme: 'material'
+    };
+
+    Vue.use(VueLivePreview);
+  </script>
+</body>
 </html>
