@@ -1,5 +1,6 @@
 import VueLivePreview from './Preview.vue'
 import VueCodemirror from 'vue-codemirror'
+import 'codemirror/mode/vue/vue.js'
 
 const defaultOptions = {
   theme: 'default',
@@ -9,10 +10,8 @@ const defaultOptions = {
 }
 
 function install(Vue, options = {}) {
-  options = Object.assign(defaultOptions, options)
-  Vue.use(VueCodemirror, {
-    options: options
-  })
+  VueLivePreview.props.globalOptions.default = options
+  Vue.use(VueCodemirror)
   Vue.component(VueLivePreview.name, VueLivePreview)
 }
 

@@ -12,9 +12,6 @@
       <live-preview :code="code"></live-preview>
     </div>
 
-
-    <script type="text/javascript" src="//unpkg.com/codemirror@latest/lib/codemirror.js"></script>
-    <script type="text/javascript" src="//unpkg.com/codemirror@latest/mode/vue/vue.js"></script>
     <script type="text/javascript" src="//unpkg.com/vue@latest/dist/vue.min.js"></script>
     <script type="text/javascript" src="/dist/vue-live-preview.min.js"></script>
 
@@ -32,10 +29,11 @@
 
     <script type="text/javascript">
 
-      Vue.use(VueLivePreview, {
-        theme: 'material',
-        mode: 'text/x-vue'
-      });
+      VueLivePreview.options = {
+        theme: 'material'
+      }
+
+      Vue.use(VueLivePreview);
       var app = new Vue({
         el: '#app',
         data: {

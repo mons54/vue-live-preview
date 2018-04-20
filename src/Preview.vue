@@ -1,7 +1,7 @@
 <template>
   <div class="row live-preview">
     <div v-if="show" v-bind:class="classCode">
-      <codemirror v-model="model" @input="change"></codemirror>
+      <codemirror v-model="model" @input="change" :options="defaultOptions"></codemirror>
       <hr>
     </div>
     <div v-bind:class="[classPrev, scope]">
@@ -22,6 +22,12 @@
         model: null,
         show: this.showCode,
         scope: this.generateScope(),
+        defaultOptions: {
+          theme: 'default',
+          tabSize: 2,
+          lineNumbers: true,
+          mode: 'text/x-vue',
+        }
       }
     },
     props: {
@@ -45,6 +51,14 @@
       classPrev: {
         type: String,
         default: 'col-md-12'
+      },
+      globalOptions: {
+        type: Object,
+        default: {}
+      },
+      options: {
+        type: Object,
+        default: null
       }
     },
     methods: {
@@ -101,7 +115,7 @@
 
         if (monofile && typeof script === 'string') {
           try {
-            let js = this.babel.transform(script, { presets: ['es2015'] }).code
+            let js = Babel.transform(script, { presets: ['es2015'] }).code
             const exports = {}
             data = eval(js)
           } catch(e) {}
@@ -139,19 +153,24 @@
         
         this.elStyle.innerHTML = this.scoped ? this.scopeStyle(style) : style
       },
+      setDefaultOptions(options) {
+        this.defaultOptions = Object.assign(this.defaultOptions, options)
+      }
     },
     mounted() {
+
+      if (this.options) {
+        this.setDefaultOptions(this.options)
+      } else if (window.VueLivePreview && window.VueLivePreview.options) {
+        this.setDefaultOptions(window.VueLivePreview.options)
+      } else if (this.globalOptions) {
+        this.setDefaultOptions(this.globalOptions)
+      }
 
       if (window && window.Vue) {
         this.Vue = window.Vue
       } else {
         this.Vue = Vue
-      }
-
-      if (Babel) {
-        this.babel = Babel
-      } else {
-        this.babel = require('babel-standalone')
       }
 
       this.init(this.code);
