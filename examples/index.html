@@ -3,23 +3,25 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width,initial-scale=1.0">
+  <link rel="stylesheet" type="text/css" href="//unpkg.com/bootstrap-4-grid/css/grid.min.css"></link>
   <link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror/lib/codemirror.css"></link>
   <link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror/theme/material.css"></link>
-  <title>example</title>
+  <title>Vue Live Preview - Vue.js Component</title>
+  <meta name="description" content="Live preview component for Vue.js and Nuxt.js">
 </head>
 <body>
   <div id="app">
-    <live-preview :code="code"></live-preview>
+    <live-preview :code="code" class-code="col-md-6" class-prev="col-md-6"></live-preview>
   </div>
 
   <script src="//unpkg.com/vue/dist/vue.min.js"></script>
   <script src="//unpkg.com/axios/dist/axios.min.js"></script>
-  <script src="//unpkg.com/vue-live-preview/dist/vue-live-preview.min.js"></script>
+  <script src="/dist/vue-live-preview.min.js"></script>
 
   <script>
     axios.get('./components/example.vue').then(function (response) {
-      var app = new Vue({
-        el: '#app',
+      new Vue({
+        el: 'live-preview',
         data: {
           code: response.data
         }
@@ -34,13 +36,24 @@
   </script>
 
   <style>
+    body {
+      max-width: 100vw;
+      overflow-x: hidden;
+    }
     #app {
+      height: calc(100vh - 80px);
       font-family: 'Avenir', Helvetica, Arial, sans-serif;
       -webkit-font-smoothing: antialiased;
       -moz-osx-font-smoothing: grayscale;
       text-align: center;
       color: #2c3e50;
-      margin-top: 60px;
+      margin: 40px 0;
+    }
+    .preview {
+      height: 100%;
+    }
+    .vue-codemirror, .CodeMirror {
+      height: 100%;
     }
   </style>
 </body>
