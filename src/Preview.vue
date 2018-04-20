@@ -115,7 +115,7 @@
 
         if (monofile && typeof script === 'string') {
           try {
-            let js = Babel.transform(script, { presets: ['es2015'] }).code
+            let js = this.Babel.transform(script, { presets: ['es2015'] }).code
             const exports = {}
             data = eval(js)
           } catch(e) {}
@@ -171,6 +171,12 @@
         this.Vue = window.Vue
       } else {
         this.Vue = Vue
+      }
+
+      if (Babel) {
+        this.Babel = Babel
+      } else {
+        this.Babel = require('babel-standalone')
       }
 
       this.init(this.code);
