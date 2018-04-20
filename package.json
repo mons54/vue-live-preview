@@ -1,6 +1,6 @@
 {
   "name": "vue-live-preview",
-  "version": "0.2.9",
+  "version": "0.3.0",
   "description": "Live preview component for Vue.js and Nuxt.js",
   "main": "src/index.js",
   "web": "dist/vue-live-preview.min.js",
