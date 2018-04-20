@@ -13,16 +13,11 @@ module.exports = {
       {
         test: /\.js$/,
         loader: 'babel',
-        include: __dirname,
         exclude: /node_modules/
       },
       {
         test: /\.vue$/,
         loader: 'vue'
-      },
-      {
-        test: /\.css$/,
-        loader: 'style!less!css'
       },
       {
         test: /\.json$/,
