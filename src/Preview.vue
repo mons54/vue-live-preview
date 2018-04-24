@@ -4,7 +4,7 @@
       <codemirror v-model="model" @input="change" :options="defaultOptions"></codemirror>
     </div>
     <div class="preview-prev" v-bind:class="[classPrev, scope]">
-      <div id="component"></div>
+      <div v-bind:id="scope"></div>
     </div>
   </div>
 </template>
@@ -130,13 +130,13 @@
           this.script = script
 
           new this.Vue({
-            el: '#component',
-            template: `<div id="component"><div id="content"></div></div>`,
+            el: `#${this.scope}`,
+            template: `<div id="${this.scope}"><div id="${this.scope}-content"></div></div>`,
           })
 
           if (monofile) {
             new this.Vue(Object.assign({
-              el: '#content',
+              el: `#${this.scope}-content`,
               template: template,
             }, data))
           } else {
