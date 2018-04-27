@@ -1,5 +1,5 @@
 <template>
-  <div class="preview row" v-bind:class="classElem">
+  <div class="preview" v-bind:class="classElem">
     <div class="preview-code" v-if="show" v-bind:class="classCode">
       <codemirror v-model="model" @input="change" :options="defaultOptions"></codemirror>
     </div>
