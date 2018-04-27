@@ -168,7 +168,20 @@ Or
 
 ```html
 <template>
-  <live-preview :require="`{'~/components/component.vue': AppComponent}`"></live-preview>
+  <live-preview :require="{'~/components/component.vue': AppComponent}" code="`
+    <template>
+      <app-component></app-component>
+    </template>
+    <script>
+      import AppComponent from './components/Component'
+      export default {
+        components: {
+          AppComponent
+        }
+      }
+    </script>
+  `">
+  </live-preview>
 </temlate>
 
 <script>
