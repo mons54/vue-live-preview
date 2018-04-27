@@ -119,9 +119,14 @@
         if (monofile && typeof script === 'string') {
           try {
             let js = this.Babel.transform(script, { presets: ['es2015'] }).code
-            const exports = {}
-            data = eval(js)
-          } catch(e) {}
+            const _require = (path) => {
+              // load all components before if possible
+              return require('~/components/bootstrap/test.vue')
+            }
+            data = eval(`(function(exports, require){${js}; return exports.default})({}, ${_require})`)
+          } catch(e) {
+            console.log(e)
+          }
         }
 
         if (template !== this.template || script !== this.script) {
