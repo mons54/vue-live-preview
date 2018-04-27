@@ -198,14 +198,13 @@ Or
 ### Style
 
 ```html
-<style lang="scss">
-  @import 'codemirror/lib/codemirror.css'
-  /* 
-  others css from codemirror
-  @import 'codemirror/theme/material.css'
-  ...
-  */
-</style>
+<link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror/lib/codemirror.css"></link>
+<link rel="stylesheet" type="text/css" href="//unpkg.com/codemirror/theme/material.css"></link>
+```
+
+```js
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
 ```
 
 ### Props
