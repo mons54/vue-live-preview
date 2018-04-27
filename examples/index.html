@@ -19,7 +19,14 @@
   <script src="/dist/vue-live-preview.min.js"></script>
 
   <script>
+    VueLivePreview.options = {
+      theme: 'material'
+    };
+
+    Vue.use(VueLivePreview);
+
     axios.get('./components/example.vue').then(function (response) {
+
       new Vue({
         el: 'live-preview',
         data: {
@@ -27,12 +34,6 @@
         }
       })
     });
-
-    VueLivePreview.options = {
-      theme: 'material'
-    };
-
-    Vue.use(VueLivePreview);
   </script>
 
   <style>

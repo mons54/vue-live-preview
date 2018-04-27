@@ -55,6 +55,10 @@
         type: String,
         default: 'col-md-12'
       },
+      require: {
+        type: Object,
+        default: {}
+      },
       globalOptions: {
         type: Object,
         default: {}
@@ -120,13 +124,19 @@
           try {
             let js = this.Babel.transform(script, { presets: ['es2015'] }).code
             const _require = (path) => {
-              // load all components before if possible
-              return require('~/components/bootstrap/test.vue')
+
+              if (!this.require[path]) {
+                path = path.replace('.vue', '')
+              }
+
+              if (!this.require[path]) {
+                path += '.vue'
+              }
+
+              return this.require[path] || null
             }
             data = eval(`(function(exports, require){${js}; return exports.default})({}, ${_require})`)
-          } catch(e) {
-            console.log(e)
-          }
+          } catch(e) {}
         }
 
         if (template !== this.template || script !== this.script) {
