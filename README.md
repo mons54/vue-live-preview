@@ -28,7 +28,7 @@ webpack.config.js
 ```js
 resolve: {
   alias: {
-    vue: 'vue/dist/vue.js'
+    'vue$': 'vue/dist/vue.esm.js',
   }
 }
 ```
@@ -36,6 +36,8 @@ resolve: {
 main.js
 ```js
 import VueLivePreview from 'vue-live-preview'
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
 
 // CodeMirror options
 Vue.use(VueLivePreview, {
@@ -50,11 +52,6 @@ App.vue
 <template>
   <live-preview code="Your code here..."/>
 </template>
-
-<style lang="scss">
-  @import 'codemirror/lib/codemirror.css'
-  @import 'codemirror/theme/material.css'
-</style>
 ```
 
 ### Nuxt.js
@@ -90,8 +87,8 @@ Vue.vue
 </temlate>
 
 <style lang="scss">
-  @import 'codemirror/lib/codemirror.css'
-  @import 'codemirror/theme/material.css'
+  @import 'codemirror/lib/codemirror.css';
+  @import 'codemirror/theme/material.css';
 </style>
 ```
 
@@ -128,6 +125,62 @@ Vue.vue
 </body>
 ```
 
+### Import script
+
+```js
+import VueLivePreview from 'vue-live-preview'
+import AppComponent from './components/component'
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
+
+
+// CodeMirror options
+Vue.use(VueLivePreview, {
+  require: {
+    './components/Component': AppComponent
+  },
+  theme: 'material',
+  tabSize: 2,
+  lineNumbers: true,
+})
+```
+
+```html
+<template>
+  <live-preview code="`
+    <template>
+      <app-component></app-component>
+    </template>
+    <script>
+      import AppComponent from './components/Component'
+      export default {
+        components: {
+          AppComponent
+        }
+      }
+    </script>
+  `">
+  </live-preview>
+</temlate>
+```
+
+Or
+
+```html
+<template>
+  <live-preview :require="`{'~/components/component.vue': AppComponent}`"></live-preview>
+</temlate>
+
+<script>
+  import AppComponent from '~/components/component.vue'
+  export default {
+    data: {
+      AppComponent
+    }
+  }
+</script>
+```
+
 ### Style
 
 ```html
@@ -157,13 +210,14 @@ Vue.vue
     <tr>
       <td>code</td>
       <td>String</td>
+      <td>Code of Single File Components</td>
       <td>null</td>
       <td>true</td>
-      <td>Code of Single File Components</td>
     </tr>
     <tr>
       <td>options</td>
       <td>Object</td>
+      <td>CodeMirror options</td>
       <td>
         <code>{
           theme: 'default',
@@ -173,42 +227,48 @@ Vue.vue
           }</code>
       </td>
       <td></td>
-      <td>CodeMirror options</td>
     </tr>
     <tr>
       <td>scoped</td>
       <td>Boolean</td>
+      <td>Apply css to elements of preview only</td>
       <td>true</td>
       <td></td>
-      <td>Apply css to elements of preview only</td>
     </tr>
     <tr>
       <td>showCode</td>
       <td>Boolean</td>
+      <td>Show element code (Used for toogle)</td>
       <td>true</td>
       <td></td>
-      <td>Show element code (Used for toogle)</td>
     </tr>
     <tr>
       <td>classElem</td>
       <td>String</td>
+      <td>Class css for this element</td>
       <td>row</td>
       <td></td>
-      <td>Class css for this element</td>
     </tr>
     <tr>
       <td>classCode</td>
       <td>String</td>
+      <td>Class css for element code (Used for bootstrap grid)</td>
       <td>col-md-12</td>
       <td></td>
-      <td>Class css for element code (Used for bootstrap grid)</td>
     </tr>
     <tr>
       <td>classPrev</td>
       <td>String</td>
+      <td>Class css for element preview (Used for bootstrap grid)</td>
       <td>col-md-12</td>
       <td></td>
-      <td>Class css for element preview (Used for bootstrap grid)</td>
+    </tr>
+    <tr>
+      <td>require</td>
+      <td>Object</td>
+      <td>List of require modules</td>
+      <td><code>{'filePath': Instance}</code></td>
+      <td></td>
     </tr>
   </tbody>
 </table>
