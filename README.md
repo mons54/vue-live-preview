@@ -63,6 +63,10 @@ nuxt.config.js
 plugins: [
   { src: '~plugins/vue-live-preview', ssr: false },
 ],
+css:  [
+  'codemirror/lib/codemirror.css',
+  'codemirror/theme/material.css',
+],
 ```
 
 plugins/vue-live-preview.js
@@ -85,11 +89,6 @@ Vue.vue
     <live-preview :code="`Your monofile code here`"></live-preview>
   </no-ssr>
 </temlate>
-
-<style lang="scss">
-  @import 'codemirror/lib/codemirror.css';
-  @import 'codemirror/theme/material.css';
-</style>
 ```
 
 ### Browser
