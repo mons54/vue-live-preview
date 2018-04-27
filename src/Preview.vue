@@ -21,6 +21,7 @@
         model: null,
         show: this.showCode,
         scope: this.generateScope(),
+        instances: this.require || {},
         defaultOptions: {
           theme: 'default',
           tabSize: 2,
@@ -57,7 +58,7 @@
       },
       require: {
         type: Object,
-        default: {}
+        default: null
       },
       globalOptions: {
         type: Object,
@@ -124,16 +125,9 @@
           try {
             let js = this.Babel.transform(script, { presets: ['es2015'] }).code
             const _require = (path) => {
-
-              if (!this.require[path]) {
-                path = path.replace('.vue', '')
-              }
-
-              if (!this.require[path]) {
-                path += '.vue'
-              }
-
-              return this.require[path] || null
+              if (!this.instances[path]) path = path.replace('.vue', '')
+              if (!this.instances[path]) path += '.vue'
+              return this.instances[path] || null
             }
             data = eval(`(function(exports, require){${js}; return exports.default})({}, ${_require})`)
           } catch(e) {}
@@ -171,19 +165,27 @@
         
         this.elStyle.innerHTML = this.scoped ? this.scopeStyle(style) : style
       },
-      setDefaultOptions(options) {
+      setOptions(options = {}) {
+        if (typeof options.require === 'object') {
+          this.instances = options.require
+          delete options.require
+        }
         this.defaultOptions = Object.assign(this.defaultOptions, options)
       }
     },
     mounted() {
 
+      let options = this.globalOptions
+
       if (this.options) {
-        this.setDefaultOptions(this.options)
+        options = this.options
       } else if (window.VueLivePreview && window.VueLivePreview.options) {
-        this.setDefaultOptions(window.VueLivePreview.options)
+        options = window.VueLivePreview.options
       } else if (this.globalOptions) {
-        this.setDefaultOptions(this.globalOptions)
+        options = this.globalOptions
       }
+
+      this.setOptions(options)
 
       if (window && window.Vue) {
         this.Vue = window.Vue
